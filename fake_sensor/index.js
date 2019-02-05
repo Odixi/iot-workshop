@@ -1,12 +1,24 @@
 const axios = require('axios');
 
+// round number to two decimal places
 const round = num => Math.round(num * 100) / 100;
 
-axios.post('http://localhost:3001/api/newreading', {
+const url = 'http://localhost:3001/api/newreading';
+
+// generate random data
+const data = {
   name: 'Timo Teekkari',
   temperature: round(17 + (5 * Math.random())),
   pressure: round(8500 + (2500 * Math.random())),
   humidity: round(14 + (76 * Math.random()))
-})
+};
+
+axios.post(url, data)
   .then(() => console.log('success'))
-.catch(err => console.log('Error:', err.response.data));
+  .catch(err => {
+    if (!err.response) {
+      return console.log('Error: Did not get response from the server.')
+    }
+
+    console.log('Error:', err.response.data)
+});
